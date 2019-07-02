@@ -13,21 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from main_app import views
 
+app_name = 'main_app'
 urlpatterns = [
-    path( 'auth/', include( 'auth_app.urls', namespace = 'auth_app' ) ),
-    path( '', include( 'main_app.urls', namespace = 'main_app' ) ),
-    path( 'oauth/', include( 'social_django.urls', namespace='social' ) ),
-    path( 'admin/', admin.site.urls ),
-]
-
-if settings.DEBUG:
-    urlpatterns += static (
-        settings.MEDIA_URL,
-        document_root = settings.MEDIA_ROOT
-    )
+    # general view url mapping
+    path('', views.IndexView.as_view(), name = 'home'),
+    path('about_us', views.AboutUsView.as_view(), name = 'about_us'),
+    path('contact_us', views.ContactUsView.as_view(), name = 'contact_us'),
+    path('faq', views.FAQView.as_view(), name = 'faq'),
+    path('find_roommate', views.FindARoomMateView.as_view(), name = 'find_roommate'),
+    path('moving_service', views.MovingServiceView.as_view(), name = 'moving_service'),
+    path('cleaning_service', views.CleaningServiceView.as_view(), name = 'cleaning_service'),
+    path('vendor', views.VendorView.as_view(), name = 'vendor'),
+    path('apartments/<int:pk>', views.UnitDetailView.as_view(), name = 'unit_details'),
+    path('search', views.SearchView.as_view(), name = 'search'),
     
+    # dahsboard view url mapping
+    path('dashboard', views.DashboardView.as_view(), name = 'dashboard'),
+    
+]
